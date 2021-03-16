@@ -77,4 +77,33 @@ t.test(x = mpg99$hwy, y = mpg08$hwy, paired = T)
 ## difference between the 2 sample means is equal to 0.
 
 
-.
+### Analysis of Variance (ANOVA) ###
+
+## Is there any statistical difference in the horsepower of 
+## a vehicle based on its engine type?
+  ## Dependent measured variable: horsepower
+  ## Independent categorical variable: number of cylinders
+
+# Select columns for ANOVA
+car_anova <- car_data[, c('hp', 'cyl', 'vs')]
+car_anova$cyl <- factor(car_anova$cyl) # independent var is numeric
+car_anova$vs <- factor(car_anova$vs) # so convert it to a factor (categorical)
+
+# 1-way ANOVA
+summary(aov(hp ~ cyl, data = car_anova))
+
+## With a p-val < 0.05 on the `cyl` variable, we reject the 
+## null hypothesis and accept that there is a significant 
+## difference in horsepower between at least one engine type 
+## and the others.
+
+# 2-way ANOVA
+summary(aov(hp ~ cyl + vs, data = car_anova))
+
+## cyl: p < 0.05 => reject H0
+## vs: p > 0.05 => fail to reject H0
+## We can conclude that there is a significant difference 
+## in `hp` between at least one `cyl` group and the others, 
+## but no difference in `hp` across all `vs` groups
+
+
