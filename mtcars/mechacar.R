@@ -21,23 +21,39 @@ mecha_df <- read.csv(file = 'data/MechaCar_mpg.csv',
 mecha_samp <- mecha_df %>% sample_n(size = nrow(comp08_df))
 
 
-### Compare the PSI to the population mean of 1500 using a t-test ###
+### Suspension Coil Analysis ###
+
+## The suspension coils have a population mean of 1500 pounds 
+## per square inch (PSI). Is there a statistical difference 
+## between the sample mean and the population mean?
 
 # Summary statistics
-sc_df %>% summarize(mean_psi = mean(PSI), median_psi = median(PSI),
-                    var_psi = var(PSI), sd_psi = sd(PSI))
-sc_df %>% group_by(Manufacturing_Lot) %>% # by lot
-  summarize(mean_psi = mean(PSI), median_psi = median(PSI), var_psi = var(PSI), sd_psi = sd(PSI))
+susp_stats <- susp_df %>% summarize(median_psi = median(PSI), 
+                                    mean_psi = mean(PSI), 
+                                    var_psi = var(PSI), 
+                                    sd_psi = sd(PSI))
 
 # 1-sample t-test
-t.test(x = sc_df$PSI, mu = 1500)
+t.test(x = susp_df$PSI, mu = 1500)
 
-# With a p-value of 0.5117, we fail to reject the null hypothesis that the sample mean is equal 
-# to 1500.
+## With a p-value of 0.5117, we fail to reject the null 
+## hypothesis that the sample mean is not significantly 
+## different from the population mean of 1500.
 
-# Design specifications dictate that suspension coil variance must not exceed 100 pounds 
-# per square inch. Lots 1 and 2 meet are fine, with a variance of 1.15 and 10.1 respectively. 
-# Lot 3, however, has a PSI variance of 220 so it does not meet this specification.
+## Design specifications dictate that suspension coil 
+## variance must not exceed 100 PSI. Does every manufacturing 
+## lot meet this specification?
+
+# Summary statistics for each lot
+susp_stats <- susp_df %>% group_by(Manufacturing_Lot) %>% 
+                          summarize(median_psi = median(PSI), 
+                                    mean_psi = mean(PSI), 
+                                    var_psi = var(PSI), 
+                                    sd_psi = sd(PSI))
+
+## Lots 1 and 2 have a variance of 1.15 and 10.1, 
+## respectively, so they are fine. Lot 3, however, has a PSI
+## variance of 220 so it does not meet this specification.
 
 
 ### Create a model to predict the mpg ###
