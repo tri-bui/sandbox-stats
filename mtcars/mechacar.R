@@ -56,7 +56,7 @@ susp_stats <- susp_df %>% group_by(Manufacturing_Lot) %>%
 ## variance of 220 so it does not meet this specification.
 
 
-### MPG Prediction ###
+### Fuel Economy Prediction ###
 
 # Multiple linear regression
 lr <- lm(mpg ~ vehicle.length + vehicle.weight + 
@@ -74,6 +74,12 @@ summary(lr)
 ## MPG. The other 3 variables (`vehicle.weight`, 
 ## `spoiler.angle`, and `AWD`) were not statistically 
 ## significant in this model.
+## 
+## This means that the length of the vehicle and its ground 
+## clearance has a significant impact on its fuel economy. 
+## The significance of the intercept indicates that there are 
+## other factors affecting the fuel economy that were not 
+## used in the model. This would require additional features.
 
 
 ### Hypothesis Testing ###
