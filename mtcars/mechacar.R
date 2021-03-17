@@ -1,15 +1,24 @@
-# Dependencies
+### Dependencies and Data ###
+
+# Libraries
 # install.packages('pastecs')
+# install.packages('tidyverse')
 library(pastecs)
 library(tidyverse)
 
-# Read data
-sc_df <- read.csv(file = 'data/Suspension_Coil.csv', stringsAsFactors = F) # suspension coil data
-mc_df <- read.csv(file = 'data/MechaCar_mpg.csv', stringsAsFactors = F) # Mecha Car MPG data
+# Built-in mpg data for 2008 compact cars
+comp08_df <- mpg %>% filter(class == 'compact' & year == 2008)
 
-# Built-in mpg data for 2008 compact cars and sample of `mc_df` to match the number of rows
-comp_df <- mpg %>% filter(class == 'compact' & year == 2008) # 22 2008 compact cars
-samp_df <- mc_df %>% sample_n(size = nrow(comp_df)) # sample of 22 mecha cars
+# Suspension coil data
+susp_df <- read.csv(file = 'data/Suspension_Coil.csv', 
+                    stringsAsFactors = F)
+
+# Mecha Car MPG data
+mecha_df <- read.csv(file = 'data/MechaCar_mpg.csv', 
+                     stringsAsFactors = F)
+
+# Mecha Car sample with the same size as `comp08_df`
+mecha_samp <- mecha_df %>% sample_n(size = nrow(comp08_df))
 
 
 ### Compare the PSI to the population mean of 1500 using a t-test ###
