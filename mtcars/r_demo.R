@@ -177,3 +177,17 @@ summary(mlr)
 ## significant variables is evidence of overfitting.
 
 
+### Chi-squared tests ###
+
+## Is there a significant difference in distributions of 
+## vehicle class in the MPG data across 1999 and 2008?
+
+# Create a contingency table (frequency table)
+freq_tbl <- table(mpg_data$class, mpg_data$year)
+
+# Chi-squared test
+chisq.test(freq_tbl)
+
+## With p > 0.05, we fail to reject the null hypothesis, so 
+## we can conclude that there is no significant difference 
+## in the distribution of vehicle class across 1999 and 2008.
