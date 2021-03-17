@@ -56,7 +56,7 @@ susp_stats <- susp_df %>% group_by(Manufacturing_Lot) %>%
 ## variance of 220 so it does not meet this specification.
 
 
-### Predicting MPG ###
+### MPG Prediction ###
 
 # Multiple linear regression
 lr <- lm(mpg ~ vehicle.length + vehicle.weight + 
@@ -76,37 +76,40 @@ summary(lr)
 ## significant in this model.
 
 
-### Hypothesis testing ###
+### Hypothesis Testing ###
 
-# Question: Is the Mecha Car more fuel-efficient than the 2008 compact cars in the built-in 
-#           MPG data?
-
-# Abbreviations:
-  # FE_m = Mecha Car's fuel efficiency
-  # FE_c = 2008 Compact cars' fuel efficiency
-
-# Hypotheses
-  # Null (H0):          FE_m <= FE_c
-  # Alternative (Ha):   FE_m > FE_c
-
-# Test: 1-tailed 2-sample t-test (comparing 2 small samples)
-  # The test will compare the mean MPG of 22 Mecha Cars and 22 2008 compact cars
-  # Metric: mean MPG
-  # Significance level: 0.05
+## Question: Is the Mecha Car more fuel-efficient than the 
+##           2008 compact cars in the built-in MPG data?
+## 
+## Abbreviations:
+  ## mpg_m = Mecha Car's fuel efficiency (MPG)
+  ## mpg_c = 2008 Compact cars' fuel efficiency (MPG)
+## 
+## Hypotheses:
+  ## Null (H0):          mpg_m <= mpg_c
+  ## Alternative (Ha):   mpg_m > mpg_c
+## 
+## Test: 1-tailed 2-sample t-test
+  ## The test will compare the mean MPG of 22 randomly 
+  ## sampled Mecha Cars and 22 2008 compact cars
+  ## Metric: mean MPG
+  ## Significance level: 0.05
 
 # Summary statistics for both
-stat.desc(samp_df$mpg) # Mecha Car's MPGs
-stat.desc(comp_df$hwy) # compact car's MPGs
+mecha_stats <- stat.desc(mecha_samp$mpg) # Mecha Cars' mpg
+comp08_stats <- stat.desc(comp08_df$hwy) # compact cars' mpg
 
 # Plot distribution of both
-ggplot(samp_df, aes(x = mpg)) + geom_density() # Mecha Car's MPGs
-ggplot(comp_df, aes(x = hwy)) + geom_density() # compact cars' MPGs
+ggplot(mecha_samp, aes(x = mpg)) + geom_density()
+ggplot(comp08_df, aes(x = hwy)) + geom_density()
 
 # 1-tailed 2-sample t-test
-t.test(x = samp_df$mpg, y = comp_df$hwy, alternative = 'greater')
+t.test(x = mecha_samp$mpg, y = comp08_df$hwy, 
+       alternative = 'greater')
 
-# The mean MPG of the Mecha Car sample was found to be 43.46, while the mean MPG of the 
-# 2008 compact cars was found to be 28.73. With a p-value of 3.15*10^-5 (which is much lower 
-# than our significance level of 0.05), we reject the null hypothesis. This test concludes 
-# that the Mecha Car is more fuel-efficient than 2008 compact cars.
-
+## The mean fuel economy of the Mecha Car sample and the 2008 
+## compact cars were found to be 44.40 and 28.73, 
+## respectively. With a p-value of 1.55*10^-5 (much lower 
+## than our significance level of 0.05), we reject the null 
+## hypothesis. This test concludes that the Mecha Car is 
+## statistically more fuel-efficient than 2008 compact cars.
