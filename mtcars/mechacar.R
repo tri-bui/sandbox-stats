@@ -56,17 +56,24 @@ susp_stats <- susp_df %>% group_by(Manufacturing_Lot) %>%
 ## variance of 220 so it does not meet this specification.
 
 
-### Create a model to predict the mpg ###
+### Predicting MPG ###
 
-# Linear model
-lr <- lm(formula = mpg ~ vehicle.length + vehicle.weight + spoiler.angle + ground.clearance + AWD,
-         data = mc_df)
+# Multiple linear regression
+lr <- lm(mpg ~ vehicle.length + vehicle.weight + 
+               spoiler.angle + ground.clearance + AWD, 
+         data = mecha_df)
 summary(lr)
 
-# With a p-value of 5.35*10^-11, we reject the null hypothesis that the slope is equal to 0.
-# This model predicts the mpg with a coefficient of determination (R-squared) of 0.7149.
-# The intercept, `vehicle.length`, and `ground.clearance` provided a non-random amount of variance 
-# to the mpg in the Mecha Car dataset.
+## With a p-value of 5.35*10^-11, we reject the null 
+## hypothesis that this model's slope is equal to 0. The 
+## model predicts MPG with a coefficient of determination 
+## (R-squared) of 0.7149.
+## 
+## The intercept, `vehicle.length`, and `ground.clearance` 
+## contributed a non-random amount of variance to the car 
+## MPG. The other 3 variables (`vehicle.weight`, 
+## `spoiler.angle`, and `AWD`) were not statistically 
+## significant in this model.
 
 
 ### Hypothesis testing ###
