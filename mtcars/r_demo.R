@@ -102,8 +102,78 @@ summary(aov(hp ~ cyl + vs, data = car_anova))
 
 ## cyl: p < 0.05 => reject H0
 ## vs: p > 0.05 => fail to reject H0
+## 
 ## We can conclude that there is a significant difference 
 ## in `hp` between at least one `cyl` group and the others, 
 ## but no difference in `hp` across all `vs` groups
+
+
+### Correlation ###
+
+# Plot horsepower against quarter-mile race time
+ggplot(car_data, aes(x = hp, y = qsec)) + geom_point() + 
+  labs(title = 'Horsepower vs. Quarter-mile Race Time', 
+       x = 'Horsepower', y = 'Quarter-mile Race Time (sec)')
+
+# Pearson correlation
+print(cor(car_data$hp, car_data$qsec))
+
+## Both the scatter plot and the correlation coefficient 
+## show that there is a strong negative correlation 
+## between `hp` and `qsec`.
+
+# Select numeric columns and convert data to matrix
+car_mat <- as.matrix(car_data %>% subset(select = disp:qsec))
+
+# Correlation matrix
+print(cor(car_mat))
+
+
+### Linear Regression ###
+
+# Simple linear regression
+lr <- lm(qsec ~ hp, data = car_data) # linear model
+summary(lr) # model summary
+
+## The resulting line is: qsec = -0.02hp + 20.56
+## 
+## With p < 0.05, we reject the null hypothesis and conclude 
+## that the slope of the line is not 0. An r-squared value 
+## of 0.50 means that roughly half of this model's 
+## predictions will be correct.
+
+# Get the line equation
+y <- lr$coefficients['hp'] * car_data$hp + 
+     lr$coefficients['(Intercept)'] # y = mx + b
+
+# Plot the line over the scatter plot
+ggplot(car_data, aes(x = hp, y = qsec)) + 
+  geom_point() + geom_line(aes(y = y), color = 'red') + 
+  labs(title = 'Horsepower vs. Quarter-mile Race Time', 
+       x = 'Horsepower', y = 'Quarter-mile Race Time (sec)')
+  
+# Multiple linear regression
+mlr <- lm(qsec ~ disp + hp + drat + wt, data = car_data)
+summary(mlr)
+
+## Line: qsec = -0.01disp - 0.02hp - 0.39drat + 1.41wt + 
+##              19.71
+## 
+## By adding in 3 more independent variables, we still 
+## reject the null, but habe improved the r-squared value 
+## to 0.69 (an improvement of 0.19 from simple linear 
+## regression model).
+## 
+## The coefficients for `hp`, `wt`, and the intercept have 
+## p < 0.05. So we reject the null hypothesis that these 
+## coefficients contribute a random amount of variance to 
+## the model. In other words, `hp`, `wt`, and the intercept 
+## are statistically significant in predicting `qsec`. The 
+## other 2 variables (`disp` and `drat`) have no 
+## significance in this model.
+## 
+## Although the multiple linear regression model is far 
+## better at predicting our current dataset, the lack of 
+## significant variables is evidence of overfitting.
 
 
