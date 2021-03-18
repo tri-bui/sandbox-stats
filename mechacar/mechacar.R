@@ -55,7 +55,7 @@ summary(aov(PSI ~ Manufacturing_Lot, data = susp_df))
 ## lot meet this specification?
 
 # Summary statistics for each lot
-susp_stats <- susp_df %>% group_by(Manufacturing_Lot) %>% 
+lot_stats <- susp_df %>% group_by(Manufacturing_Lot) %>% 
                           summarize(median_psi = median(PSI), 
                                     mean_psi = mean(PSI), 
                                     var_psi = var(PSI), 
