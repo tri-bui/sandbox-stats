@@ -1,4 +1,4 @@
-# Mecha Car Analysis
+# MechaCar Analysis
 
 This is an analysis of fictional MechaCar prototypes in production. There is also a statistical testing demo in R in `stat_tests.R`.
 
