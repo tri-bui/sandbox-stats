@@ -40,6 +40,16 @@ t.test(x = susp_df$PSI, mu = 1500)
 ## hypothesis that the sample mean is not significantly 
 ## different from the population mean of 1500.
 
+## Is there a significant difference in mean PSI of 
+## prototypes in different manufacturing lots?
+
+# ANOVA
+summary(aov(PSI ~ Manufacturing_Lot, data = susp_df))
+
+## With a p-value of 0.846, we fail to reject the null 
+## hypothesis that there is no significant difference in 
+## PSI between the manufacturing lots.
+
 ## Design specifications dictate that suspension coil 
 ## variance must not exceed 100 PSI. Does every manufacturing 
 ## lot meet this specification?
